@@ -18,6 +18,7 @@ RUN apt-get install -y \
   openssl \
   xz-utils \
   php \
+  php-fpm \
   php-cli \
   php-tidy \
   php-xml \
@@ -32,6 +33,9 @@ RUN chmod 755 /usr/local/bin/composer
 RUN mkdir -p /root/.composer
 RUN echo '{"bitbucket-oauth":{},"github-oauth":{"github.com":"84d9e42830eb07af371b8142edab73ebed0b5f2e"},"gitlab-oauth":{},"http-basic":{}}' >> /root/.composer/auth.json
 
+ADD nginx.conf /etc/supervisor/conf.d/nginx.conf
+ADD phpfpm.conf /etc/supervisor/conf.d/phpfpm.conf
+
 ADD https://nodejs.org/dist/v6.3.0/node-v6.3.0-linux-x64.tar.xz /tmp/node.tar.xz
 RUN mkdir -p /opt/node && tar xvf /tmp/node.tar.xz --strip-components=1 -C /opt/node
 RUN rm /tmp/node.tar.xz
@@ -39,12 +43,17 @@ RUN mkdir /opt/apps
 
 RUN sed -i \
   -e 's/^# server_tokens off;/server_tokens on;/' \
+  -e 's/^worker_connections 768;/worker_connections 1024;/' \
+  -e 's/^worker_processes auto;/worker_processes 5;/' \
   /etc/nginx/nginx.conf
 
 RUN sed -i \
   's/try_files.*404;/return 404;/' \
   /etc/nginx/sites-available/default
 
+RUN sed -i \
+  's/^listen = /run/php/php7.0-fpm.sock/listen = /run/php7.0-fpm.sock/' \
+  /etc/php/7.0/fpm/pool.d/www.conf
 
 RUN echo "export PATH=/opt/node/bin:$PATH" >> /root/.bashrc
 RUN echo "export NODE_PATH=/opt/node/lib/node_modules" >> /root/.bashrc
