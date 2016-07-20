@@ -15,6 +15,7 @@ RUN apt-get -y dist-upgrade
 
 RUN apt-get install -y \
   nginx \
+  openssl \
   xz-utils \
   php \
   php-cli \
@@ -30,6 +31,13 @@ ADD https://nodejs.org/dist/v6.3.0/node-v6.3.0-linux-x64.tar.xz /tmp/node.tar.xz
 RUN mkdir -p /opt/node && tar xvf /tmp/node.tar.xz --strip-components=1 -C /opt/node
 RUN rm /tmp/node.tar.xz
 
+RUN sed -i \
+  -e 's/^# server_tokens off;/server_tokens on;/' \
+  /etc/nginx/nginx.conf
+
+RUN sed -i \
+  's/try_files.*404;/return 404;/' \
+  /etc/nginx/sites-available/default
 
 RUN echo "export PATH=/opt/node/bin:$PATH" >> /root/.bashrc
 RUN echo "export NODE_PATH=/opt/node/lib/node_modules" >> /root/.bashrc
