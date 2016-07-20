@@ -27,6 +27,11 @@ RUN apt-get install -y \
   php-mysql \
   php-mcrypt
 
+ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
+RUN chmod 755 /usr/local/bin/composer
+RUN mkdir -p /root/.composer
+RUN echo '{"bitbucket-oauth":{},"github-oauth":{"github.com":"84d9e42830eb07af371b8142edab73ebed0b5f2e"},"gitlab-oauth":{},"http-basic":{}}' >> /root/.composer/auth.json
+
 ADD https://nodejs.org/dist/v6.3.0/node-v6.3.0-linux-x64.tar.xz /tmp/node.tar.xz
 RUN mkdir -p /opt/node && tar xvf /tmp/node.tar.xz --strip-components=1 -C /opt/node
 RUN rm /tmp/node.tar.xz
@@ -55,6 +60,11 @@ RUN echo "alias cont='git rebase --continue'" >> /root/.bashrc
 RUN echo "alias rebase='git rebase'" >> /root/.bashrc
 RUN echo "alias stash='git stash'" >> /root/.bashrc
 RUN echo "alias sapply='git stash apply'" >> /root/.bashrc
+RUN echo "alias gsa='cd /opt/apps/gsa'" >> /root/.bashrc
+RUN echo "alias cal='cd /opt/apps/gfp_cal'" >> /root/.bashrc
+RUN echo "alias sso='cd /opt/apps/gfp_sso'" >> /root/.bashrc
+RUN echo "alias fcl='cd /opt/apps/gfp_fcl'" >> /root/.bashrc
+RUN echo "alias stl='cd /opt/apps/gfp_stl'" >> /root/.bashrc
 RUN echo "alias tinker='php artisan tinker'" >> /root/.bashrc
 
 RUN apt-get clean && apt-get autoclean && apt-get -y autoremove
