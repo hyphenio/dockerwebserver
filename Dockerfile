@@ -38,7 +38,7 @@ ADD nginx.conf /etc/supervisor/conf.d/nginx.conf
 ADD phpfpm.conf /etc/supervisor/conf.d/phpfpm.conf
 ADD https://getcomposer.org/composer.phar /usr/local/bin/composer
 RUN chmod 755 /usr/local/bin/composer
-RUN echo '{"bitbucket-oauth":{},"github-oauth":{"github.com":"84d9e42830eb07af371b8142edab73ebed0b5f2e"},"gitlab-oauth":{},"http-basic":{}}' >> /root/.composer/auth.json
+RUN echo '{"bitbucket-oauth":{},"github-oauth":{"github.com":"eab99dfcc4c936cbf91cfa0a088a7fdbd1e439b2 "},"gitlab-oauth":{},"http-basic":{}}' >> /root/.composer/auth.json
 
 
 ADD https://nodejs.org/dist/v6.3.0/node-v6.3.0-linux-x64.tar.xz /tmp/node.tar.xz
