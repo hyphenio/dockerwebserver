@@ -46,7 +46,7 @@ RUN tar xvf /tmp/node.tar.xz --strip-components=1 -C /opt/node
 RUN rm /tmp/node.tar.xz
 
 RUN sed -i \
-  -e 's/^# server_tokens off;/server_tokens on;/' \
+  -e 's/.*# server_tokens off;/server_tokens off;/' \
   -e 's/^worker_connections 768;/worker_connections 1024;/' \
   -e 's/^worker_processes auto;/worker_processes 5;/' \
   /etc/nginx/nginx.conf
