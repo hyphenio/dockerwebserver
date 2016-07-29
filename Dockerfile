@@ -22,11 +22,14 @@ RUN apt-get install -y \
   php-cli \
   php-tidy \
   php-xml \
+  php-bcmath \
   php-gd \
   php-mbstring \
   php-curl \
   php-mysql \
-  php-mcrypt
+  php-zip \
+  php-mcrypt \
+  php-imagick
 
 RUN mkdir -p /opt/apps && \
   mkdir -p /root/.composer && \
